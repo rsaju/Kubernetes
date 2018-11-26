@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-servicetwo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-two
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: service-two
+    spec:
+      containers:
+      - name: service-two
+        image: service-two:v1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8082

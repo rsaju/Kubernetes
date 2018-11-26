@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-serviceone
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: service-one
+    spec:
+      containers:
+      - name: service-one
+        image: service-one:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
