@@ -20,7 +20,17 @@ spec:
     spec:
       containers:
       - name: service-two
-        image: service-two:v1
+        image: service-two:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 8082
+        volumeMounts:
+          - name: service-two-config
+            mountPath: "/config"
+      volumes:
+      - name: service-two-config
+        configMap:
+          name: my-config
+          items:
+            - key: service-two-config.properties
+              path: service-two-config.properties

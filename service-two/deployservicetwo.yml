@@ -15,3 +15,13 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8082
+        volumeMounts:
+          - name: service-two-config
+            mountPath: "/config"
+      volumes:
+      - name: service-two-config
+        configMap:
+          name: my-config
+          items:
+            - key: application.properties
+              path: application.properties
