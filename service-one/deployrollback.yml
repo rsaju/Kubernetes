@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-serviceone
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-one
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: service-one
+    spec:
+      containers:
+      - name: service-one
+        image: service-one:v1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+          - name: service-one-config
+            mountPath: "/config"
+      volumes:
+      - name: service-one-config
+        configMap:
+          name: my-config-serviceone
+          items:
+            - key: application.properties
+              path: application.properties
